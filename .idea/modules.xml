@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/FederatedDemo.iml" filepath="$PROJECT_DIR$/.idea/modules/FederatedDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/FederatedDemo.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/FederatedDemo.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scanlibrary/FederatedDemo.scanlibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/scanlibrary/FederatedDemo.scanlibrary.iml" />
+    </modules>
+  </component>
+</project>
