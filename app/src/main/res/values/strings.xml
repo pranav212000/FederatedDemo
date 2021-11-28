@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">FederatedDemo</string>
+    <string name="sign_in">Sign In</string>
+    <string name="enter_your_number">Enter Your Number</string>
+    <string name="login_with_phone_number">Login with phone number</string>
+    <string name="sending_otp_to_confirm">Sending OTP to confirm...</string>
+    <string name="submit">Submit</string>
+    <string name="safety_net_api_key">AIzaSyA9T26TTUxIE4kWgv063QGocxE5PmwowKA</string>
 </resources>

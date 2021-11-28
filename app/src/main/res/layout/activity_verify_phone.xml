@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:gravity="center_horizontal">
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="200dp"
+        android:gravity="center_horizontal"
+        android:padding="8dp"
+        android:text="@string/sending_otp_to_confirm"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:textColor="@color/colorSecondary"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="48dp"
+        android:gravity="center_horizontal"
+        android:text="The code will be detected automatically. If not, enter the 6-digit code manually below"
+        android:textAlignment="center"
+        android:textColor="@color/colorSecondary" />
+
+
+    <com.chaos.view.PinView
+        android:id="@+id/editTextCode"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:background="@color/colorPrimary"
+        android:digits="0123456789"
+        android:imeOptions="actionDone"
+        android:inputType="number"
+        android:padding="8dp"
+
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:itemCount="6"
+        app:itemHeight="36dp"
+        app:itemRadius="4dp"
+        app:itemWidth="24dp"
+        app:lineColor="@color/white"
+        app:lineWidth="1.5dp" />
+
+
+    <Button
+        android:id="@+id/buttonSignIn"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextCode"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="48dp"
+
+        android:backgroundTint="@color/colorSecondary"
+        android:onClick="@{()->activity.onButtonClick(otp.otp)}"
+        android:text="@string/submit"
+        android:textAllCaps="false"
+        android:textColor="@color/black" />
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        app:cardCornerRadius="40dp"
+        app:cardElevation="2dp">
+
+    </androidx.cardview.widget.CardView>
+
+
+    <ProgressBar
+
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonSignIn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/white"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/colorSecondary"
+        android:indeterminateTintMode="src_atop"
+        android:visibility="gone"
+     />
+
+
+</RelativeLayout>

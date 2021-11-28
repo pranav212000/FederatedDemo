@@ -3,21 +3,9 @@ manifest
 ADDED from C:\FederatedDemo\scanlibrary\src\main\AndroidManifest.xml:2:1-33:12
 INJECTED from C:\FederatedDemo\scanlibrary\src\main\AndroidManifest.xml:2:1-33:12
 INJECTED from C:\FederatedDemo\scanlibrary\src\main\AndroidManifest.xml:2:1-33:12
-INJECTED from C:\FederatedDemo\scanlibrary\src\main\AndroidManifest.xml:2:1-33:12
-INJECTED from C:\FederatedDemo\scanlibrary\src\main\AndroidManifest.xml:2:1-33:12
-INJECTED from C:\FederatedDemo\scanlibrary\src\main\AndroidManifest.xml:2:1-33:12
-INJECTED from C:\FederatedDemo\scanlibrary\src\main\AndroidManifest.xml:2:1-33:12
 	package
 		ADDED from C:\FederatedDemo\scanlibrary\src\main\AndroidManifest.xml:3:5-30
 		INJECTED from C:\FederatedDemo\scanlibrary\src\main\AndroidManifest.xml
-		INJECTED from C:\FederatedDemo\scanlibrary\src\main\AndroidManifest.xml
-	android:versionName
-		INJECTED from C:\FederatedDemo\scanlibrary\src\main\AndroidManifest.xml
-		ADDED from C:\FederatedDemo\scanlibrary\src\main\AndroidManifest.xml:2:1-33:12
-		INJECTED from C:\FederatedDemo\scanlibrary\src\main\AndroidManifest.xml
-	android:versionCode
-		INJECTED from C:\FederatedDemo\scanlibrary\src\main\AndroidManifest.xml
-		ADDED from C:\FederatedDemo\scanlibrary\src\main\AndroidManifest.xml:2:1-33:12
 		INJECTED from C:\FederatedDemo\scanlibrary\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from C:\FederatedDemo\scanlibrary\src\main\AndroidManifest.xml:2:11-69

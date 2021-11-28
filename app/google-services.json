@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "423720676130",
+    "project_id": "covid-federated",
+    "storage_bucket": "covid-federated.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:423720676130:android:6b0e045375eb1dbcb1d37b",
+        "android_client_info": {
+          "package_name": "com.example.federateddemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "423720676130-ndomumkr4tm4vtahv33slaj59t6luvi5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAESe_QOJDZQyH-mtNAhu7iXzw-6DFz4cE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "423720676130-ndomumkr4tm4vtahv33slaj59t6luvi5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
