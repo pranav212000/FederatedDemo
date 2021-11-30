@@ -21,8 +21,6 @@ import androidx.core.content.ContextCompat;
 
 import com.example.federateddemo.databinding.ActivityMainBinding;
 import com.example.federateddemo.ml.ModelMobilenet20epoch;
-import com.google.mlkit.vision.barcode.Barcode;
-import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
 import com.scanlibrary.ScanActivity;
 import com.scanlibrary.ScanConstants;
 
@@ -65,13 +63,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         binding.chooseImage.setOnClickListener(v -> {
+            binding.imageName.setVisibility(View.VISIBLE);
             Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(i, RESULT_LOAD_IMAGE);
         });
 
 
         binding.capture.setOnClickListener(v -> {
-
+            binding.capture.setVisibility(View.GONE);
             Intent intent = new Intent(this, ScanActivity.class);
             intent.putExtra(ScanConstants.OPEN_INTENT_PREFERENCE, preference);
             startActivityForResult(intent, CAMERA_REQUEST_CODE);

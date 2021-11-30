@@ -100,15 +100,17 @@
             android:id="@+id/sign_in_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sign in with email instead!" />
+            android:text="Sign in with email instead!"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:text="Register"
 
-            android:text="Register" />
+            android:textColor="@color/white" />
     </LinearLayout>
 
     <Button
@@ -116,7 +118,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorSecondary"
-        android:text="Authenticate" />
+        android:text="Authenticate"
+        android:visibility="gone" />
 
 
 </RelativeLayout>
