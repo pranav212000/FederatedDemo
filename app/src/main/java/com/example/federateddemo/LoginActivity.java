@@ -11,8 +11,6 @@ import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
 
 import com.example.federateddemo.databinding.ActivityLoginBinding;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.safetynet.SafetyNet;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.concurrent.Executor;
@@ -33,6 +31,11 @@ public class LoginActivity extends AppCompatActivity {
 
         mBinding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
+
+
+        mBinding.phoneSignIn.setOnClickListener(view -> {
+            startActivity(new Intent(LoginActivity.this, VerifyPhoneActivity.class));
+        });
 
 
 //        mBinding.phoneSignIn.setOnClickListener(v -> {

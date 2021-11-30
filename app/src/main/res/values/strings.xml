@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FederatedDemo</string>
+    <string name="app_name">CoviCare</string>
     <string name="sign_in">Sign In</string>
     <string name="enter_your_number">Enter Your Number</string>
     <string name="login_with_phone_number">Login with phone number</string>

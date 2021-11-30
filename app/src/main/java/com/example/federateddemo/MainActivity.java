@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -159,10 +160,14 @@ public class MainActivity extends AppCompatActivity {
         binding.pred.setText(String.valueOf(data[0]));
         float pred = outputFeature0.getFloatArray()[0];
 
+        binding.predsLayout.setVisibility(View.VISIBLE);
+
         if (pred > 1 - pred) {
             binding.result.setText("POSITIVE");
+            binding.result.setTextColor(getResources().getColor(R.color.red));
         } else {
             binding.result.setText("NEGATIVE");
+            binding.result.setTextColor(getResources().getColor(R.color.green));
         }
 
         Log.d(TAG, "infer: outputdata " + Arrays.toString(data));

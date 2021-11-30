@@ -68,9 +68,7 @@
         android:layout_below="@+id/editTextCode"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="48dp"
-
         android:backgroundTint="@color/colorSecondary"
-        android:onClick="@{()->activity.onButtonClick(otp.otp)}"
         android:text="@string/submit"
         android:textAllCaps="false"
         android:textColor="@color/black" />

@@ -17,10 +17,12 @@
         android:id="@+id/image_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:textColor="@color/white" />
 
     <Button
         android:id="@+id/choose_image"
+        android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -45,11 +47,13 @@
         android:text="Scan QR Code" />
 
     <LinearLayout
+        android:id="@+id/preds_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="32dp"
         android:orientation="horizontal"
+        android:visibility="gone"
         android:weightSum="2">
 
         <TextView
@@ -57,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"
-            android:text="Preds : "
+            android:text="Positive Probability : "
             android:textColor="@color/white" />
 
         <TextView
@@ -73,6 +77,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:textSize="20sp"
 
         />
 
