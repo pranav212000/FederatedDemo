@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -23,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:backgroundTint="@color/colorSecondary"
         android:text="Choose Image" />
 
     <Button
@@ -30,7 +32,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:backgroundTint="@color/colorSecondary"
+
         android:text="Capture Image" />
+
+    <Button
+        android:id="@+id/scan_qr_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/colorSecondary"
+        android:text="Scan QR Code" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,13 +57,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"
-            android:text="Preds : " />
+            android:text="Preds : "
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/pred"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textColor="@color/white" />
     </LinearLayout>
 
     <TextView

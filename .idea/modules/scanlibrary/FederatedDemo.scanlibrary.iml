@@ -40,7 +40,7 @@
       <excludeFolder url="file://$MODULE_DIR$/../../../scanlibrary/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/../../../scanlibrary/build" />
     </content>
-    <orderEntry type="jdk" jdkName="Android API 30 Platform" jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Android API 31 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: androidx.collection:collection:1.0.0" level="project" />
     <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-common:2.0.0" level="project" />

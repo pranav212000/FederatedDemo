@@ -20,6 +20,8 @@ import androidx.core.content.ContextCompat;
 
 import com.example.federateddemo.databinding.ActivityMainBinding;
 import com.example.federateddemo.ml.ModelMobilenet20epoch;
+import com.google.mlkit.vision.barcode.Barcode;
+import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
 import com.scanlibrary.ScanActivity;
 import com.scanlibrary.ScanConstants;
 
@@ -34,7 +36,6 @@ import java.nio.ByteBuffer;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
-//import com.example.federateddemo.ml.ModelMobilenet95;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST_CODE = 99;
     private static final String TAG = "MainActivity";
     private static final int PERMISSION_REQUEST_CODE = 102;
+    private static final int SCAN_QR_CODE_REQUEST_CODE = 103;
     int preference = ScanConstants.OPEN_CAMERA;
     private ActivityMainBinding binding;
 
@@ -75,6 +77,41 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+        binding.scanQrCode.setOnClickListener(v -> {
+
+
+            captureImage();
+
+//
+//            BarcodeScannerOptions options =
+//                    new BarcodeScannerOptions.Builder()
+//                            .setBarcodeFormats(
+//                                    Barcode.FORMAT_QR_CODE,
+//                                    Barcode.FORMAT_AZTEC)
+//                            .build();
+
+
+//            try {
+//
+//                Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+//                intent.putExtra("SCAN_MODE", "QR_CODE_MODE"); // "PRODUCT_MODE for bar codes
+//
+//                startActivityForResult(intent, SCAN_QR_CODE_REQUEST_CODE);
+//
+//            } catch (Exception e) {
+//
+//                Uri marketUri = Uri.parse("market://details?id=com.google.zxing.client.android");
+//                Intent marketIntent = new Intent(Intent.ACTION_VIEW, marketUri);
+//                startActivity(marketIntent);
+//
+//            }
+        });
+
+
+    }
+
+    private void captureImage() {
+        startActivity(new Intent(MainActivity.this, CameraActivity.class));
     }
 
 
@@ -153,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+
             Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
             Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
@@ -174,6 +212,7 @@ public class MainActivity extends AppCompatActivity {
 //            binding.image.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
         } else if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+
             Uri uri = data.getExtras().getParcelable(ScanConstants.SCANNED_RESULT);
             Bitmap bitmap = null;
             try {
@@ -188,6 +227,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else if (requestCode == SCAN_QR_CODE_REQUEST_CODE) {
         }
     }
 }

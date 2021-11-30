@@ -6,4 +6,10 @@
     <string name="sending_otp_to_confirm">Sending OTP to confirm...</string>
     <string name="submit">Submit</string>
     <string name="safety_net_api_key">AIzaSyA9T26TTUxIE4kWgv063QGocxE5PmwowKA</string>
+    <string name="capture">Capture</string>
+    <string name="device_key">Device Key</string>
+    <string name="temperature">Temperature</string>
+    <string name="spo2">SpO2</string>
+    <string name="pulse">Pulse</string>
+    <string name="cough_detected">Cough Detected</string>
 </resources>

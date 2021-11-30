@@ -20,15 +20,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".VerifyPhoneActivity"
+            android:name=".VitalsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CameraActivity"
             android:exported="false" />
 
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="barcode" />
+
+        <activity
+            android:name=".VerifyPhoneActivity"
+            android:exported="false" />
         <activity
             android:name=".LoginActivity"
             android:exported="true">
             <meta-data
                 android:name="com.google.android.safetynet.ATTEST_API_KEY"
                 android:value="@string/safety_net_api_key" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
