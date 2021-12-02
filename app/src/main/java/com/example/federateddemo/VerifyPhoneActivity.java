@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -80,7 +79,8 @@ public class VerifyPhoneActivity extends AppCompatActivity {
         mBinding.buttonSignIn.setOnClickListener(v -> {
 
             if (mBinding.editTextCode.getText().toString().equals("000000")) {
-                biometricPrompt.authenticate(promptInfo);
+//                biometricPrompt.authenticate(promptInfo);
+                startActivity(new Intent(VerifyPhoneActivity.this, MainActivity.class));
             }
         });
 

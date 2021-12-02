@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         binding.capture.setOnClickListener(v -> {
-            binding.capture.setVisibility(View.GONE);
+            binding.imageName.setVisibility(View.GONE);
             Intent intent = new Intent(this, ScanActivity.class);
             intent.putExtra(ScanConstants.OPEN_INTENT_PREFERENCE, preference);
             startActivityForResult(intent, CAMERA_REQUEST_CODE);

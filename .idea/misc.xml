@@ -8,7 +8,10 @@
         <entry key="..\:/FederatedDemo/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/FederatedDemo/app/src/main/res/layout/activity_verify_phone.xml" value="0.25416666666666665" />
         <entry key="..\:/FederatedDemo/app/src/main/res/layout/activity_vitals.xml" value="0.25416666666666665" />
+        <entry key="..\:/FederatedDemo/scanlibrary/src/main/res/layout/pick_image_fragment.xml" value="0.25416666666666665" />
         <entry key="..\:/FederatedDemo/scanlibrary/src/main/res/layout/result_layout.xml" value="0.264" />
+        <entry key="..\:/FederatedDemo/scanlibrary/src/main/res/layout/scan_fragment_layout.xml" value="0.12291666666666666" />
+        <entry key="..\:/FederatedDemo/scanlibrary/src/main/res/layout/scan_layout.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>
