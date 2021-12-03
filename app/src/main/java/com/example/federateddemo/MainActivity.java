@@ -45,14 +45,14 @@ public class MainActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CODE = 102;
     private static final int SCAN_QR_CODE_REQUEST_CODE = 103;
     int preference = ScanConstants.OPEN_CAMERA;
-    private ActivityMainBinding binding;
+    private ActivityMainBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        mBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(mBinding.getRoot());
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -62,27 +62,31 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        binding.chooseImage.setOnClickListener(v -> {
-            binding.imageName.setVisibility(View.VISIBLE);
+        mBinding.chooseImage.setOnClickListener(v -> {
+            mBinding.imageName.setVisibility(View.VISIBLE);
             Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(i, RESULT_LOAD_IMAGE);
         });
 
 
-        binding.capture.setOnClickListener(v -> {
-            binding.imageName.setVisibility(View.GONE);
+        mBinding.capture.setOnClickListener(v -> {
+            mBinding.imageName.setVisibility(View.GONE);
             Intent intent = new Intent(this, ScanActivity.class);
             intent.putExtra(ScanConstants.OPEN_INTENT_PREFERENCE, preference);
             startActivityForResult(intent, CAMERA_REQUEST_CODE);
 
         });
 
-        binding.scanQrCode.setOnClickListener(v -> {
+        mBinding.questionList.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, QuizActivity.class));
+        });
+
+        mBinding.scanQrCode.setOnClickListener(v -> {
 
 
             captureImage();
 
-//
+
 //            BarcodeScannerOptions options =
 //                    new BarcodeScannerOptions.Builder()
 //                            .setBarcodeFormats(
@@ -156,17 +160,17 @@ public class MainActivity extends AppCompatActivity {
 
         float[] data = outputFeature0.getFloatArray();
 
-        binding.pred.setText(String.valueOf(data[0]));
+        mBinding.pred.setText(String.valueOf(data[0]));
         float pred = outputFeature0.getFloatArray()[0];
 
-        binding.predsLayout.setVisibility(View.VISIBLE);
+        mBinding.predsLayout.setVisibility(View.VISIBLE);
 
         if (pred > 1 - pred) {
-            binding.result.setText("POSITIVE");
-            binding.result.setTextColor(getResources().getColor(R.color.red));
+            mBinding.result.setText("POSITIVE");
+            mBinding.result.setTextColor(getResources().getColor(R.color.red));
         } else {
-            binding.result.setText("NEGATIVE");
-            binding.result.setTextColor(getResources().getColor(R.color.green));
+            mBinding.result.setText("NEGATIVE");
+            mBinding.result.setTextColor(getResources().getColor(R.color.green));
         }
 
         Log.d(TAG, "infer: outputdata " + Arrays.toString(data));
@@ -203,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
             Log.d(TAG, "onActivityResult: picturePath : " + picturePath);
-            binding.imageName.setText(Paths.get(picturePath).getFileName().toString());
+            mBinding.imageName.setText(Paths.get(picturePath).getFileName().toString());
             ImageView imageView = findViewById(R.id.image);
             Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
             imageView.setImageBitmap(bitmap);
@@ -222,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 getContentResolver().delete(uri, null, null);
-                binding.image.setImageBitmap(bitmap);
+                mBinding.image.setImageBitmap(bitmap);
                 try {
                     infer(bitmap);
                 } catch (IOException e) {

@@ -46,6 +46,14 @@
         android:backgroundTint="@color/colorSecondary"
         android:text="Scan QR Code" />
 
+    <Button
+        android:id="@+id/question_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/colorSecondary"
+        android:text="Evaluator" />
+
     <LinearLayout
         android:id="@+id/preds_layout"
         android:layout_width="match_parent"
