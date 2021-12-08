@@ -79,8 +79,8 @@ public class VerifyPhoneActivity extends AppCompatActivity {
         mBinding.buttonSignIn.setOnClickListener(v -> {
 
             if (mBinding.editTextCode.getText().toString().equals("000000")) {
-//                biometricPrompt.authenticate(promptInfo);
-                startActivity(new Intent(VerifyPhoneActivity.this, MainActivity.class));
+                biometricPrompt.authenticate(promptInfo);
+//                startActivity(new Intent(VerifyPhoneActivity.this, MainActivity.class));
             }
         });
 

@@ -175,7 +175,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1.45"
-                    android:text="DETECTED"
+                    android:text="TBD"
                     android:textColor="@color/red" />
 
 
@@ -206,13 +206,14 @@
                 android:text="Suceptibility Score"
                 android:textSize="20sp" />
 
+<!--            TODO-->
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="3"
+                android:text="TBD"
                 android:textColor="@color/green"
                 android:textSize="20sp" />
 

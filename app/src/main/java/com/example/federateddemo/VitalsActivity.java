@@ -18,6 +18,9 @@ import com.macasaet.fernet.TokenExpiredException;
 import com.macasaet.fernet.TokenValidationException;
 import com.macasaet.fernet.Validator;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,8 +48,34 @@ public class VitalsActivity extends AppCompatActivity {
 
 
         String decryptedData = decryptData(barcodeRawValues.get(0));
-        if(decryptedData.isEmpty())
+        if (decryptedData.isEmpty())
             finish();
+        else {
+
+            try {
+                JSONObject obj = new JSONObject(decryptedData);
+                String username = obj.getString(Keys.USERNAME);
+                String heart_rate = String.valueOf(obj.getDouble(Keys.HEART_RATE));
+                String temperature = obj.getDouble(Keys.TEMPERATURE) + "\u2103";
+                String spo2 = obj.getInt(Keys.SPO2) + "%";
+
+                mBinding.userName.setText(username);
+                mBinding.deviceKey.setText(DECRYPTION_KEY);
+                mBinding.temperature.setText(temperature);
+                mBinding.oxygen.setText(spo2);
+                mBinding.pulse.setText(heart_rate);
+
+
+                Log.d(TAG, "onCreate: heart_rate : " + heart_rate);
+
+            } catch (JSONException e) {
+                Log.e(TAG, "onCreate: " + e.getMessage());
+                Toast.makeText(VitalsActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+
+
+        }
 
         Log.d(TAG, "onCreate: decrypted data : " + decryptedData);
     }

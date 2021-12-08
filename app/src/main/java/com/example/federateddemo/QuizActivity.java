@@ -90,7 +90,6 @@ public class QuizActivity extends AppCompatActivity {
                 mBinding.ageEdittext.setText("");
                 mBinding.ageEdittext.setError("Please enter valid age");
             } else {
-//                TODO min-max scaling
                 float x_min = 5, x_max = 72;
                 float score = (age - x_min) / (x_max - x_min);
 
