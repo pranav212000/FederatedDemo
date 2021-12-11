@@ -11,16 +11,22 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.federateddemo.databinding.ActivityMainBinding;
 import com.example.federateddemo.ml.ModelMobilenet20epoch;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.scanlibrary.ScanActivity;
 import com.scanlibrary.ScanConstants;
 
@@ -46,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
     private static final int SCAN_QR_CODE_REQUEST_CODE = 103;
     int preference = ScanConstants.OPEN_CAMERA;
     private ActivityMainBinding mBinding;
+    AlertDialog alertDialog;
+    FirebaseAuth firebaseAuth;
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mBinding.questionList.setOnClickListener(v -> {
+
             startActivity(new Intent(MainActivity.this, QuizActivity.class));
         });
 
@@ -110,6 +120,11 @@ public class MainActivity extends AppCompatActivity {
 //
 //            }
         });
+
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        mBinding.logout.setOnClickListener(view -> showConfirmDialogue("Do you want to log out of CoviCare?", firebaseAuth));
 
 
     }
@@ -238,4 +253,65 @@ public class MainActivity extends AppCompatActivity {
         } else if (requestCode == SCAN_QR_CODE_REQUEST_CODE) {
         }
     }
+
+
+    private void showConfirmDialogue(String message, FirebaseAuth firebaseAuth) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.AlertDialogueTheme);
+        View view = LayoutInflater.from(MainActivity.this).inflate(
+                R.layout.lt_dialogue_box,
+                (LinearLayout) findViewById(R.id.layout_dialogue_container)
+        );
+        builder.setView(view);
+        ((TextView) view.findViewById(R.id.alert_text)).setText(message);
+
+        alertDialog = builder.create();
+        view.findViewById(R.id.positive_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.hide();
+                firebaseAuth.signOut();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        view.findViewById(R.id.negative_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.hide();
+            }
+        });
+
+        alertDialog.show();
+    }
+
+    private void showExitConfirmDialogue(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.AlertDialogueTheme);
+        View view = LayoutInflater.from(MainActivity.this).inflate(
+                R.layout.lt_dialogue_box,
+                (LinearLayout) findViewById(R.id.layout_dialogue_container)
+        );
+        builder.setView(view);
+        ((TextView) view.findViewById(R.id.alert_text)).setText(message);
+
+        AlertDialog alertDialog = builder.create();
+        view.findViewById(R.id.positive_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.hide();
+                moveTaskToBack(true);
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(0);
+            }
+        });
+        view.findViewById(R.id.negative_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.hide();
+            }
+        });
+
+        alertDialog.show();
+    }
+
 }

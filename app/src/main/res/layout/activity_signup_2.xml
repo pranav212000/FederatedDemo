@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Signup_2"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="10dp"
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/app_logo"
+            android:layout_width="match_parent"
+            android:transitionName="logo_tran"
+            android:layout_height="150dp"
+            android:src="@drawable/covid_vitals_filled"
+            />
+
+        <TextView
+            android:id="@+id/signup_welcome_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_slab_bold"
+            android:text="@string/signup_welcome_string"
+            android:transitionName="logo_text_tran"
+            android:textColor="@color/black_200"
+            android:textSize="35sp"
+            android:textAlignment="center"
+            android:layout_marginTop="-20dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choose Gender"
+                android:textColor="@color/black_500"
+                android:fontFamily="@font/roboto_slab"
+                android:textSize="18sp"/>
+
+
+            <RadioGroup
+                android:id="@+id/radio_group_gender"
+                android:layout_width="match_parent"
+                android:transitionName="email_tran"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                >
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <RadioButton
+                    android:id="@+id/radio_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black_500"
+                    android:fontFamily="@font/roboto_slab"
+                    android:buttonTint="@color/purple_200"
+                    android:text="Male" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <RadioButton
+                    android:id="@+id/radio_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black_500"
+                    android:fontFamily="@font/roboto_slab"
+                    android:buttonTint="@color/purple_200"
+                    android:text="Female" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <RadioButton
+                    android:id="@+id/radio_other"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black_500"
+                    android:fontFamily="@font/roboto_slab"
+                    android:buttonTint="@color/purple_200"
+                    android:layout_weight="1"
+                    android:text="Other" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            </RadioGroup>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginVertical="20dp"
+                android:background="@color/purple_200"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choose Date of Birth"
+                android:textColor="@color/black_500"
+                android:fontFamily="@font/roboto_slab"
+                android:textSize="18sp"/>
+
+            <DatePicker
+                android:id="@+id/dob_date_picker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:datePickerMode="spinner"
+                android:calendarViewShown="false"
+                android:spinnersShown="true"
+                android:theme="@style/MyDatePicker"
+                android:transitionName="password_tran"
+                />
+
+            <Button
+                android:layout_marginTop="10sp"
+                android:id="@+id/next_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Next"
+                android:transitionName="login_verify_tran"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/purple_500"
+                android:fontFamily="@font/roboto_slab_bold"
+                android:textSize="20sp"
+                android:paddingVertical="10sp"
+                />
+
+            <Button
+                android:id="@+id/login_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Already signed up"
+                android:transitionName="login_signup_tran"
+                android:textColor="@color/purple_200"
+                android:background="@color/transparent"
+                android:fontFamily="@font/roboto_slab_bold"
+                />
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+
+</ScrollView>

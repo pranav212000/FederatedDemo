@@ -26,4 +26,13 @@
     <string name="return_back">Return</string>
     <string name="consider_treatment">Please visit a doctor for consultation</string>
     <string name="report_normal">Report normal!</string>
+    <string name="app_tag">It\'s Vital, to Stay Safe</string>
+    <string name="welcome_string">Welcome to,\nCoviCare</string>
+    <string name="signup_welcome_string">Signup to CoviCare</string>
+    <string name="uemail_hint_string">User Email</string>
+    <string name="uname_hint_string">User Name</string>
+    <string name="pass_hint_string">Password</string>
+    <string name="forgot_pass_string">Forgot Password?</string>
+    <string name="login_string">Login</string>
+    <string name="new_user_string">New User? Sign Up</string>
 </resources>

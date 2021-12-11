@@ -164,7 +164,7 @@
 
     <color name="colorPrimary">#2f2f2b</color>
     <color name="colorSecondary">#FFBB86FC</color>
-<!--    <color name="colorSecondary">#ff7129</color>-->
+    <!--    <color name="colorSecondary">#ff7129</color>-->
     <color name="colorAccent">#2f2f2b</color>
     <color name="colordot">#009688</color>
     <color name="colorPrimaryDark">#2f2f2b</color>
@@ -172,5 +172,12 @@
     <color name="bodyColor">#828ABC</color>
     <color name="almost_grey">#7C7C7C</color>
     <color name="color_transparent">#00000000</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="grey">#FF808080</color>
+    <color name="black_200">#FF393E46</color>
+    <color name="black_500">#FF222831</color>
+    <color name="black_700">#FF000000</color>
+
 
 </resources>

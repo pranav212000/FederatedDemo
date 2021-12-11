@@ -1,125 +1,156 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    android:gravity="center_horizontal"
+    tools:context=".Login"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="10dp"
+    >
 
-    tools:context=".LoginActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="108dp"
-        android:gravity="center_horizontal"
-        android:padding="8dp"
-        android:text="@string/app_name"
-        android:textColor="@color/white"
-        android:textSize="44sp" />
+        <ImageView
+            android:id="@+id/app_logo"
+            android:layout_width="match_parent"
+            android:transitionName="logo_tran"
+            android:layout_height="150dp"
+            android:src="@drawable/covid_vitals_filled"
+            />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/group"
-        android:layout_centerHorizontal="true"
-
-        android:layout_marginBottom="16dp"
-        app:cardCornerRadius="20dp"
-
-        >
+        <TextView
+            android:id="@+id/welcome_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_slab_bold"
+            android:text="@string/welcome_string"
+            android:transitionName="logo_text_tran"
+            android:textColor="@color/black_200"
+            android:textSize="35sp"
+            android:textAlignment="center"
+            android:layout_marginTop="-20dp"
+            />
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:orientation="vertical"
-            android:visibility="visible">
+            >
 
-
-            <TextView
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/user_email_text"
+                android:transitionName="email_tran"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingTop="10dp"
-                android:paddingBottom="5dp"
-                android:text="@string/login_with_phone_number"
-                android:textSize="15sp" />
+                android:textSize="18sp"
 
+                android:hint="Email Id"
+                app:hintEnabled="true"
+                app:hintTextColor="@color/purple_200"
+                android:textColorHint="@color/grey"
 
-            <EditText
-                android:id="@+id/editTextPhone"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxStrokeColor="@color/purple_200"
+                app:boxStrokeErrorColor="@color/red"
+                app:startIconDrawable="@drawable/ic_baseline_email_24"
+                app:startIconTint="@color/grey"
+                app:endIconDrawable="@drawable/ic_baseline_cancel_24"
+                app:endIconTint="@color/grey"
+                app:endIconMode="clear_text"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black_500"
+                    android:inputType="textEmailAddress"
+                    android:fontFamily="@font/roboto_slab"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/password_text"
+                android:hint="@string/pass_hint_string"
+                app:hintEnabled="true"
+                app:hintTextColor="@color/purple_200"
+                android:textColorHint="@color/grey"
+                android:textSize="18sp"
+                android:transitionName="password_tran"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+                app:boxStrokeWidthFocused="2dp"
+                app:boxStrokeColor="@color/purple_200"
+                app:boxStrokeErrorColor="@color/red"
+                app:startIconDrawable="@drawable/ic_baseline_lock_24"
+                app:startIconTint="@color/grey"
+                app:endIconMode="password_toggle"
+                app:endIconTint="@color/grey"
+
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:textColor="@color/black_500"
+                    android:fontFamily="@font/roboto_slab"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/forgot_pass_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:text="@string/forgot_pass_string"
+                android:textColor="@color/purple_200"
                 android:background="@color/color_transparent"
-                android:digits="0123456789"
-                android:gravity="center_horizontal"
-                android:hint="@string/enter_your_number"
-                android:inputType="phone"
-                android:maxLength="10"
-                android:paddingVertical="10dp"
-                android:textSize="15sp" />
+                android:layout_gravity="right"
+                android:fontFamily="@font/roboto_slab_bold"
+                />
 
-            <TextView
-                android:id="@+id/phone_sign_in"
+            <Button
+                android:layout_marginTop="10sp"
+                android:id="@+id/login_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorSecondary"
-                android:gravity="center_horizontal"
-                android:paddingTop="5dp"
-                android:paddingBottom="10dp"
-                android:text="@string/sign_in"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:transitionName="login_verify_tran"
+                android:text="@string/login_string"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/purple_500"
+                android:fontFamily="@font/roboto_slab_bold"
+                android:textSize="20sp"
+                android:paddingVertical="10sp"
+                />
 
+            <Button
+                android:id="@+id/signup_switch_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:transitionName="login_signup_tran"
+                android:text="@string/new_user_string"
+                android:textColor="@color/purple_200"
+                android:background="@color/color_transparent"
+                android:fontFamily="@font/roboto_slab_bold"
+                />
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
 
-
-    <LinearLayout
-        android:id="@+id/group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="150dp"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/sign_in_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sign in with email instead!"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:id="@+id/register"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:text="Register"
-
-            android:textColor="@color/white" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/biometric_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorSecondary"
-        android:text="Authenticate"
-        android:visibility="gone" />
 
 
-</RelativeLayout>
+
+
+</ScrollView>

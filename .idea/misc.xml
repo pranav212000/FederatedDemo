@@ -3,12 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/FederatedDemo/app/src/main/res/drawable/st_rectangle_grey_border.xml" value="0.14635416666666667" />
         <entry key="..\:/FederatedDemo/app/src/main/res/layout/activity_camera.xml" value="0.25416666666666665" />
         <entry key="..\:/FederatedDemo/app/src/main/res/layout/activity_login.xml" value="0.2" />
         <entry key="..\:/FederatedDemo/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/FederatedDemo/app/src/main/res/layout/activity_quiz.xml" value="0.24010416666666667" />
+        <entry key="..\:/FederatedDemo/app/src/main/res/layout/activity_splash.xml" value="0.25416666666666665" />
+        <entry key="..\:/FederatedDemo/app/src/main/res/layout/activity_verify_email.xml" value="0.25416666666666665" />
         <entry key="..\:/FederatedDemo/app/src/main/res/layout/activity_verify_phone.xml" value="0.25416666666666665" />
         <entry key="..\:/FederatedDemo/app/src/main/res/layout/activity_vitals.xml" value="0.25416666666666665" />
+        <entry key="..\:/FederatedDemo/app/src/main/res/layout/lt_dialogue_box.xml" value="0.25416666666666665" />
         <entry key="..\:/FederatedDemo/app/src/main/res/xml/map.xml" value="0.25416666666666665" />
         <entry key="..\:/FederatedDemo/scanlibrary/src/main/res/layout/pick_image_fragment.xml" value="0.25416666666666665" />
         <entry key="..\:/FederatedDemo/scanlibrary/src/main/res/layout/result_layout.xml" value="0.264" />

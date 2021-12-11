@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:background="@drawable/st_alert_dialogue_background"
+    >
+
+    <LinearLayout
+        android:id="@+id/layout_dialogue_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        >
+
+        <ImageView
+            android:layout_marginVertical="10dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/ic_outline_help_24"
+            android:tint="@color/purple_500"
+            android:layout_gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/alert_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Do you really want to take this action? It could be risky. Please consider again."
+            android:textColor="@color/black_500"
+            android:fontFamily="@font/roboto_slab"
+            android:textAlignment="center"
+            android:textSize="20sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageButton
+                android:id="@+id/positive_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_baseline_check_circle_24"
+                android:paddingVertical="10dp"
+                android:tint="@color/purple_500"
+                android:background="@drawable/st_positive_button_background"
+                android:layout_margin="10dp"
+                />
+            <ImageButton
+                android:id="@+id/negative_button"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_cancel_24"
+                android:paddingVertical="10dp"
+                android:tint="@color/purple_500"
+                android:background="@drawable/st_negative_button_background"
+                android:layout_margin="10dp"
+                />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+</ScrollView>
