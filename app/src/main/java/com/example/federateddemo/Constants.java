@@ -5,8 +5,8 @@ public class Constants {
     public static final String BARCODES = "barcodes";
     public static final String BUNDLE = "bundle";
     public static final String USERNAME = "username";
-    public static final String HEART_RATE = "heart_rate";
-    public static final String SPO2 = "oxygen_saturation";
+    public static final String PULSE = "pulse";
+    public static final String SPO2 = "spo2";
     public static final String TEMPERATURE = "temperature";
     public static final String DURATION = "duration";
 
@@ -20,4 +20,5 @@ public class Constants {
     public static final int MENTAL_HEALTH = 5;
 
     public static final String PAGER_ITEM = "pager_item";
+    public static final String TIMESTAMP = "timestamp";
 }

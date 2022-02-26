@@ -357,7 +357,7 @@ public class MainActivity extends AppCompatActivity implements OnHomePageClickLi
                 break;
             case Constants.SCAN_QR:
 
-                startActivity(new Intent(MainActivity.this, DisplayImage.class));
+                startActivity(new Intent(MainActivity.this, ScanQrActivity.class));
                 break;
             case Constants.VITALS_HISTORY:
 

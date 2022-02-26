@@ -1,5 +1,12 @@
 package com.example.federateddemo;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.media.Image;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.CameraSelector;
@@ -9,16 +16,9 @@ import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.LifecycleOwner;
-
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.media.Image;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.example.federateddemo.databinding.ActivityScanQrBinding;
+import com.example.federateddemo.models.Vital;
 import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.barcode.Barcode;
@@ -26,15 +26,28 @@ import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.common.InputImage;
+import com.macasaet.fernet.Key;
+import com.macasaet.fernet.StringValidator;
+import com.macasaet.fernet.Token;
+import com.macasaet.fernet.TokenExpiredException;
+import com.macasaet.fernet.TokenValidationException;
+import com.macasaet.fernet.Validator;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class ScanQrActivity extends AppCompatActivity {
     private static final String TAG = "ScanQrActivity";
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
+    public static final String DECRYPTION_KEY = "sG9X6xiiSjrEKNAnlwK6BcYjBKhovxBuoAKU3v8v7bI=";
 
     private ActivityScanQrBinding mBinding;
     private ImageCapture imageCapture;
@@ -74,8 +87,8 @@ public class ScanQrActivity extends AppCompatActivity {
                 @Override
                 public void onError(@NonNull ImageCaptureException exception) {
                     super.onError(exception);
-                    Log.e(TAG, "onError: " + exception.toString());
-                    Toast.makeText(ScanQrActivity.this, "ERROR : " + exception.toString(), Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "onError: " + exception);
+                    Toast.makeText(ScanQrActivity.this, "ERROR : " + exception, Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -99,7 +112,7 @@ public class ScanQrActivity extends AppCompatActivity {
                     // Task completed successfully
                     // ...
 
-                    Log.d(TAG, "onSuccess: BARCODES : " + barcodes.toString());
+                    Log.d(TAG, "onSuccess: BARCODES : " + barcodes);
                     if (barcodes.isEmpty()) {
                         notFound[0] = true;
                         Log.d(TAG, "onSuccess: NO QR CODES FOUND!");
@@ -114,15 +127,14 @@ public class ScanQrActivity extends AppCompatActivity {
 
                         for (Barcode barcode : barcodes) {
                             barcodeRawValues.add(barcode.getRawValue());
+                            Log.d(TAG, "processImage: raw value" + barcode.getRawValue());
                         }
 
-                        Intent intent = new Intent(ScanQrActivity.this, VitalsActivity.class);
+                        String decryptedData = decryptData(barcodeRawValues.get(0));
+                        Log.d(TAG, "processImage: decrypted data : " + decryptedData);
 
-                        Bundle args = new Bundle();
-                        args.putSerializable(Constants.BARCODES, barcodeRawValues);
-                        intent.putExtra(Constants.BUNDLE, args);
+                        parseData(decryptedData);
 
-                        startActivity(intent);
                         imageProxy.close();
                         finish();
 
@@ -139,6 +151,56 @@ public class ScanQrActivity extends AppCompatActivity {
                         Toast.makeText(ScanQrActivity.this, "NO QR CODE FOUND, TRY AGAIN!", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void parseData(String decryptedData) {
+        try {
+            JSONObject obj = new JSONObject(decryptedData);
+//            String username = obj.getString(Constants.USERNAME);
+            Double pulse = obj.getDouble(Constants.PULSE);
+            Double temperature = obj.getDouble(Constants.TEMPERATURE);
+            Double spo2 = obj.getDouble(Constants.SPO2);
+            String dateString = obj.getString(Constants.TIMESTAMP);
+            SimpleDateFormat formatter6 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            Date date = formatter6.parse(dateString);
+
+            Vital vital = new Vital(date, temperature, spo2, pulse, false);
+
+
+//            TODO store locally sqlite
+            Log.d(TAG, "parseData: vital : " + vital);
+
+
+            Intent intent = new Intent(ScanQrActivity.this, VitalsActivity.class);
+
+            startActivity(intent);
+
+
+        } catch (JSONException | ParseException e) {
+            Log.e(TAG, "onCreate: " + e.getMessage());
+            Toast.makeText(ScanQrActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+            finish();
+        }
+    }
+
+    private String decryptData(String encryptedText) {
+        final Key key = new Key(DECRYPTION_KEY);
+        final Token token = Token.fromString(encryptedText);
+        final Validator<String> validator = new StringValidator() {
+
+        };
+        String decryptedData = "";
+        try {
+            decryptedData = token.validateAndDecrypt(key, validator);
+        } catch (TokenExpiredException e) {
+            Toast.makeText(ScanQrActivity.this, getResources().getString(R.string.token_expiration_error), Toast.LENGTH_SHORT).show();
+        } catch (TokenValidationException e) {
+            Toast.makeText(ScanQrActivity.this, getResources().getString(R.string.token_validation_error), Toast.LENGTH_SHORT).show();
+
+        }
+        return decryptedData;
     }
 
 
@@ -169,9 +231,7 @@ public class ScanQrActivity extends AppCompatActivity {
                 .build();
 
 
-        cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, preview, imageCapture);
-
-
+        cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture);
 
 
     }
