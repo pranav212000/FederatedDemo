@@ -5,11 +5,13 @@ com/scanlibrary/ScanFragment.java
  com.scanlibrary.ScanFragment$ScanButtonClickListener
 com/scanlibrary/ScanConstants.java
  com.scanlibrary.ScanConstants
-com/scanlibrary/IScanner.java
- com.scanlibrary.IScanner
-com/scanlibrary/ProgressDialogFragment.java
- com.scanlibrary.ProgressDialogFragment
- com.scanlibrary.ProgressDialogFragment$1
+com/scanlibrary/PickImageFragment.java
+ com.scanlibrary.PickImageFragment
+ com.scanlibrary.PickImageFragment$1
+ com.scanlibrary.PickImageFragment$CameraButtonClickListener
+ com.scanlibrary.PickImageFragment$GalleryClickListener
+com/scanlibrary/ScanActivity.java
+ com.scanlibrary.ScanActivity
 com/scanlibrary/BuildConfig.java
  com.scanlibrary.BuildConfig
 com/scanlibrary/PolygonView.java
@@ -45,10 +47,8 @@ com/scanlibrary/ResultFragment.java
  com.scanlibrary.ResultFragment$RTButtonClickListener$1
  com.scanlibrary.ResultFragment$RTButtonClickListener$1$1
  com.scanlibrary.ResultFragment$RTButtonClickListener$1$2
-com/scanlibrary/PickImageFragment.java
- com.scanlibrary.PickImageFragment
- com.scanlibrary.PickImageFragment$1
- com.scanlibrary.PickImageFragment$CameraButtonClickListener
- com.scanlibrary.PickImageFragment$GalleryClickListener
-com/scanlibrary/ScanActivity.java
- com.scanlibrary.ScanActivity
+com/scanlibrary/ProgressDialogFragment.java
+ com.scanlibrary.ProgressDialogFragment
+ com.scanlibrary.ProgressDialogFragment$1
+com/scanlibrary/IScanner.java
+ com.scanlibrary.IScanner

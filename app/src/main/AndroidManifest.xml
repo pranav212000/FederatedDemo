@@ -18,7 +18,13 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
+        <activity
+            android:name=".ScanQrActivity"
+            android:exported="false" />
+        <activity
+            android:name=".models.DisplayImage"
+            android:exported="false" />
         <activity
             android:name=".SplashActivity"
             android:exported="true">
@@ -33,9 +39,6 @@
             android:exported="false" />
         <activity
             android:name=".VitalsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CameraActivity"
             android:exported="false" />
 
         <meta-data
@@ -52,17 +55,18 @@
                 android:name="com.google.android.safetynet.ATTEST_API_KEY"
                 android:value="@string/safety_net_api_key" />
 
-            <!--            <intent-filter>-->
-            <!--                <action android:name="android.intent.action.MAIN" />-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
 
-            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-            <!--            </intent-filter>-->
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".Signup_3" />
         <activity android:name=".Signup_2" />
         <activity android:name=".Signup_1" />
-        <activity android:name=".VerifyEmail"/>
+        <activity android:name=".VerifyEmail" />
     </application>
 
 </manifest>

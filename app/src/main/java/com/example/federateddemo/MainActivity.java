@@ -23,8 +23,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.example.federateddemo.adapter.GridViewAdapter;
 import com.example.federateddemo.databinding.ActivityMainBinding;
+import com.example.federateddemo.interfaces.OnHomePageClickListener;
 import com.example.federateddemo.ml.ModelMobilenet20epoch;
+import com.example.federateddemo.models.DisplayImage;
+import com.example.federateddemo.models.HomePageButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.scanlibrary.ScanActivity;
@@ -39,10 +43,11 @@ import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnHomePageClickListener {
 
 
     private static final int RESULT_LOAD_IMAGE = 101;
@@ -69,6 +74,22 @@ public class MainActivity extends AppCompatActivity {
                             Manifest.permission.CAMERA},
                     PERMISSION_REQUEST_CODE);
         }
+
+
+        ArrayList<HomePageButton> homepageButtons = new ArrayList<>();
+
+
+        homepageButtons.add(new HomePageButton(getString(R.string.capture_image), R.drawable.ic_capture_image, Constants.CAPTURE_IMAGE));
+        homepageButtons.add(new HomePageButton(getString(R.string.pick_image), R.drawable.ic_pick_image, Constants.PICK_IMAGE));
+        homepageButtons.add(new HomePageButton(getString(R.string.scan_qr_code), R.drawable.ic_scan_qr, Constants.SCAN_QR));
+        homepageButtons.add(new HomePageButton(getString(R.string.vital_history), R.drawable.ic_vital_history, Constants.VITALS_HISTORY));
+        homepageButtons.add(new HomePageButton(getString(R.string.evaluate_mental_health), R.drawable.ic_eval_mental_temp, Constants.MENTAL_HEALTH));
+
+        GridViewAdapter adapter = new GridViewAdapter(this, homepageButtons, this);
+
+        mBinding.gridview.setAdapter(adapter);
+//        CourseGVAdapter adapter = new CourseGVAdapter(this, courseModelArrayList);
+//        coursesGV.setAdapter(adapter);
 
 
         mBinding.chooseImage.setOnClickListener(v -> {
@@ -129,8 +150,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     private void captureImage() {
-        startActivity(new Intent(MainActivity.this, CameraActivity.class));
+        startActivity(new Intent(MainActivity.this, ScanQrActivity.class));
     }
 
 
@@ -222,6 +244,8 @@ public class MainActivity extends AppCompatActivity {
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
             Log.d(TAG, "onActivityResult: picturePath : " + picturePath);
+
+            startActivity(new Intent(MainActivity.this, DisplayImage.class));
             mBinding.imageName.setText(Paths.get(picturePath).getFileName().toString());
             ImageView imageView = findViewById(R.id.image);
             Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
@@ -314,4 +338,41 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    @Override
+    public void onItemClick(HomePageButton homePageButton) {
+
+        Toast.makeText(this, homePageButton.getButtonName(), Toast.LENGTH_SHORT).show();
+
+
+        switch (homePageButton.getButtonId()) {
+            case Constants.CAPTURE_IMAGE:
+                Intent intent = new Intent(this, ScanActivity.class);
+                intent.putExtra(ScanConstants.OPEN_INTENT_PREFERENCE, preference);
+                startActivityForResult(intent, CAMERA_REQUEST_CODE);
+                break;
+
+            case Constants.PICK_IMAGE:
+
+                startActivity(new Intent(MainActivity.this, DisplayImage.class));
+                break;
+            case Constants.SCAN_QR:
+
+                startActivity(new Intent(MainActivity.this, DisplayImage.class));
+                break;
+            case Constants.VITALS_HISTORY:
+
+                startActivity(new Intent(MainActivity.this, VitalsActivity.class));
+                break;
+            case Constants.MENTAL_HEALTH:
+
+                startActivity(new Intent(MainActivity.this, QuizActivity.class));
+                break;
+
+            default:
+                throw new IllegalStateException("Unexpected value: " + homePageButton.getButtonId());
+        }
+
+    }
 }
+
+

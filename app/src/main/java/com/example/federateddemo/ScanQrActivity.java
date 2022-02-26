@@ -1,12 +1,5 @@
 package com.example.federateddemo;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.media.Image;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.CameraSelector;
@@ -18,10 +11,14 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 
-import com.example.federateddemo.databinding.ActivityCameraBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.media.Image;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.example.federateddemo.databinding.ActivityScanQrBinding;
 import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.barcode.Barcode;
@@ -35,17 +32,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class CameraActivity extends AppCompatActivity {
-    private static final String TAG = "CameraActivity";
+public class ScanQrActivity extends AppCompatActivity {
+    private static final String TAG = "ScanQrActivity";
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
 
-    private ActivityCameraBinding mBinding;
+    private ActivityScanQrBinding mBinding;
     private ImageCapture imageCapture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = ActivityCameraBinding.inflate(getLayoutInflater());
+        mBinding = ActivityScanQrBinding.inflate(getLayoutInflater());
 
         setContentView(mBinding.getRoot());
 
@@ -57,7 +54,7 @@ public class CameraActivity extends AppCompatActivity {
             ImageCapture.OutputFileOptions outputFileOptions =
                     new ImageCapture.OutputFileOptions.Builder(new File("/images")).build();
 
-            imageCapture.takePicture(ContextCompat.getMainExecutor(CameraActivity.this), new ImageCapture.OnImageCapturedCallback() {
+            imageCapture.takePicture(ContextCompat.getMainExecutor(ScanQrActivity.this), new ImageCapture.OnImageCapturedCallback() {
                 @Override
                 public void onCaptureSuccess(@NonNull ImageProxy imageProxy) {
                     super.onCaptureSuccess(imageProxy);
@@ -78,26 +75,10 @@ public class CameraActivity extends AppCompatActivity {
                 public void onError(@NonNull ImageCaptureException exception) {
                     super.onError(exception);
                     Log.e(TAG, "onError: " + exception.toString());
-                    Toast.makeText(CameraActivity.this, "ERROR : " + exception.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ScanQrActivity.this, "ERROR : " + exception.toString(), Toast.LENGTH_SHORT).show();
                 }
             });
 
-
-//            imageCapture.takePicture(outputFileOptions, ContextCompat.getMainExecutor(CameraActivity.this),
-//                    new ImageCapture.OnImageSavedCallback() {
-//                        @Override
-//                        public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-//                            // insert your code here.
-//                            Log.d(TAG, "onImageSaved: image saved at : ");
-//                        }
-//
-//                        @Override
-//                        public void onError(@NonNull ImageCaptureException error) {
-//                            // insert your code here.
-//                            Log.e(TAG, "onError: " + error.toString());
-//                        }
-//                    }
-//            );
         });
 
     }
@@ -135,11 +116,11 @@ public class CameraActivity extends AppCompatActivity {
                             barcodeRawValues.add(barcode.getRawValue());
                         }
 
-                        Intent intent = new Intent(CameraActivity.this, VitalsActivity.class);
+                        Intent intent = new Intent(ScanQrActivity.this, VitalsActivity.class);
 
                         Bundle args = new Bundle();
-                        args.putSerializable(Keys.BARCODES, barcodeRawValues);
-                        intent.putExtra(Keys.BUNDLE, args);
+                        args.putSerializable(Constants.BARCODES, barcodeRawValues);
+                        intent.putExtra(Constants.BUNDLE, args);
 
                         startActivity(intent);
                         imageProxy.close();
@@ -150,12 +131,12 @@ public class CameraActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     // Task failed with an exception
                     // ...
-                    Toast.makeText(CameraActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ScanQrActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
 
                 }).addOnCompleteListener(task -> {
 
                     if (notFound[0]) {
-                        Toast.makeText(CameraActivity.this, "NO QR CODE FOUND, TRY AGAIN!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ScanQrActivity.this, "NO QR CODE FOUND, TRY AGAIN!", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -191,33 +172,6 @@ public class CameraActivity extends AppCompatActivity {
         cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, preview, imageCapture);
 
 
-//        ImageAnalysis imageAnalysis =
-//                new ImageAnalysis.Builder()
-//                        // enable the following line if RGBA output is needed.
-//                        //.setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
-//                        .setTargetResolution(new Size(1280, 720))
-//                        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-//                        .build();
-//
-//
-//        imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(this), imageProxy -> {
-//            int rotationDegrees = imageProxy.getImageInfo().getRotationDegrees();
-//            // insert your code here.
-//
-//
-//            imageCapture = new ImageCapture.Builder()
-//                    .setTargetRotation(mBinding.previewView.getDisplay().getRotation())
-//                    .build();
-//
-//            Toast.makeText(CameraActivity.this, "IMAGE CAPRURE SET", Toast.LENGTH_SHORT).show();
-//
-//
-//            cameraProvider.bindToLifecycle(this, cameraSelector, imageCapture, imageAnalysis, preview);
-//
-//
-//            // after done, release the ImageProxy object
-//            imageProxy.close();
-//        });
 
 
     }

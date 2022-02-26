@@ -74,7 +74,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
         mBinding = ActivityVerifyPhoneBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
-        number = getIntent().getStringExtra(Keys.NUMBER);
+        number = getIntent().getStringExtra(Constants.NUMBER);
 
         mBinding.buttonSignIn.setOnClickListener(v -> {
 
