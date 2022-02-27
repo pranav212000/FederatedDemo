@@ -1,5 +1,7 @@
 package com.example.federateddemo.models;
 
+import com.example.federateddemo.room.entities.Vital;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 

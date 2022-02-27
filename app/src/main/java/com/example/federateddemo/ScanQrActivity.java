@@ -16,9 +16,16 @@ import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.room.Room;
 
 import com.example.federateddemo.databinding.ActivityScanQrBinding;
-import com.example.federateddemo.models.Vital;
+import com.example.federateddemo.room.VitalViewModel;
+import com.example.federateddemo.room.dao.VitalDao;
+import com.example.federateddemo.room.database.CoviCareDatabase;
+import com.example.federateddemo.room.entities.Vital;
 import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.barcode.Barcode;
@@ -141,12 +148,8 @@ public class ScanQrActivity extends AppCompatActivity {
                     }
                 })
                 .addOnFailureListener(e -> {
-                    // Task failed with an exception
-                    // ...
                     Toast.makeText(ScanQrActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-
                 }).addOnCompleteListener(task -> {
-
                     if (notFound[0]) {
                         Toast.makeText(ScanQrActivity.this, "NO QR CODE FOUND, TRY AGAIN!", Toast.LENGTH_SHORT).show();
                     }
@@ -156,7 +159,8 @@ public class ScanQrActivity extends AppCompatActivity {
     private void parseData(String decryptedData) {
         try {
             JSONObject obj = new JSONObject(decryptedData);
-//            String username = obj.getString(Constants.USERNAME);
+            Log.d(TAG, "parseData: obj : " + obj);
+            String userId = obj.getString(Constants.USER_ID);
             Double pulse = obj.getDouble(Constants.PULSE);
             Double temperature = obj.getDouble(Constants.TEMPERATURE);
             Double spo2 = obj.getDouble(Constants.SPO2);
@@ -165,7 +169,23 @@ public class ScanQrActivity extends AppCompatActivity {
 
             Date date = formatter6.parse(dateString);
 
-            Vital vital = new Vital(date, temperature, spo2, pulse, false);
+
+            Vital vital = new Vital(userId, temperature, spo2, pulse, date, false);
+
+            CoviCareDatabase db = Room.databaseBuilder(getApplicationContext(),
+                    CoviCareDatabase.class, Constants.DATABASE_NAME).build();
+
+
+
+
+
+            VitalViewModel vitalViewModel = ViewModelProviders.of(ScanQrActivity.this).get(VitalViewModel.class);
+
+            vitalViewModel.getAllVitals().observe(ScanQrActivity.this, vitals -> {
+                Toast.makeText(this, "onChanged", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "parseData: vitals : " + vitals);
+
+            });
 
 
 //            TODO store locally sqlite
