@@ -1,30 +1,17 @@
 package com.example.federateddemo;
 
-import android.graphics.Point;
-import android.graphics.Rect;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.federateddemo.adapter.ViewPagerFragmentAdapter;
 import com.example.federateddemo.databinding.ActivityVitalsBinding;
-import com.example.federateddemo.models.ViewPagerItem;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.mlkit.vision.barcode.Barcode;
-import com.macasaet.fernet.Key;
-import com.macasaet.fernet.StringValidator;
-import com.macasaet.fernet.Token;
-import com.macasaet.fernet.TokenExpiredException;
-import com.macasaet.fernet.TokenValidationException;
-import com.macasaet.fernet.Validator;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class VitalsActivity extends AppCompatActivity {
@@ -35,7 +22,6 @@ public class VitalsActivity extends AppCompatActivity {
 
 
     ViewPager2 viewPager;
-    ArrayList<ViewPagerItem> viewPagerItemArrayList = new ArrayList<>();
 
 
     @Override
@@ -45,13 +31,15 @@ public class VitalsActivity extends AppCompatActivity {
         setContentView(mBinding.getRoot());
 
 
-        viewPagerItemArrayList.add(new ViewPagerItem(1, null));
-        viewPagerItemArrayList.add(new ViewPagerItem(2, null));
-        viewPagerItemArrayList.add(new ViewPagerItem(3, null));
+//        viewPagerItemArrayList.add(new ViewPagerItem(1, null));
+//        viewPagerItemArrayList.add(new ViewPagerItem(2, null));
+//        viewPagerItemArrayList.add(new ViewPagerItem(3, null));
 
+        SharedPreferences preferences = getApplication().getSharedPreferences(Constants.SHARED_PREFS, MODE_PRIVATE);
+        String userId = preferences.getString(Constants.USER_ID, "abc");
 
         ViewPagerFragmentAdapter adapter = new ViewPagerFragmentAdapter(getSupportFragmentManager(), getLifecycle());
-        adapter.setViewPagerItemArrayList(viewPagerItemArrayList);
+        adapter.setViewPagerItemArrayList(userId);
         viewPager = mBinding.pager;
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(1);

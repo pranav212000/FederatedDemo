@@ -88,19 +88,12 @@ public class LoginActivity extends AppCompatActivity {
                 }else{
                     emailS = email.getEditText().getText().toString().trim();
                     passwordS = password.getEditText().getText().toString().trim();
-                    firebaseAuth.signInWithEmailAndPassword(emailS, passwordS).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                        @Override
-                        public void onSuccess(@NonNull AuthResult authResult) {
-                            showToast("Welcome to CoviCare");
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            showToast("Error! "+e.getMessage());
-                        }
-                    });
+                    firebaseAuth.signInWithEmailAndPassword(emailS, passwordS).addOnSuccessListener(authResult -> {
+                        showToast("Welcome to CoviCare");
+//                        GET USERID from db
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }).addOnFailureListener(e -> showToast("Error! "+e.getMessage()));
                 }
             }
         });

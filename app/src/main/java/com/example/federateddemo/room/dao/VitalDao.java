@@ -19,8 +19,8 @@ public interface VitalDao {
     @Query("SELECT * FROM vitals where userId = (:userId)")
     LiveData<List<Vital>> getUserVitals(String userId);
 
-    @Query("SELECT * FROM vitals where userId = (:userId) AND (date BETWEEN :from and :before)")
-    LiveData<List<Vital>> getUserVitalsBetween(String userId, Date from, Date before);
+    @Query("SELECT * FROM vitals where userId = (:userId) AND (date BETWEEN :from and :to)")
+    LiveData<List<Vital> >getUserVitalsBetween(String userId, Date from, Date to);
 
     @Insert
     void insert(Vital vital);

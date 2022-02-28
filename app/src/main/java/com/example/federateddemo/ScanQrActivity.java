@@ -171,15 +171,17 @@ public class ScanQrActivity extends AppCompatActivity {
 
 
             Vital vital = new Vital(userId, temperature, spo2, pulse, date, false);
+            Log.d(TAG, "parseData: vital : " + vital);
 
-            CoviCareDatabase db = Room.databaseBuilder(getApplicationContext(),
-                    CoviCareDatabase.class, Constants.DATABASE_NAME).build();
 
 
 
 
 
             VitalViewModel vitalViewModel = ViewModelProviders.of(ScanQrActivity.this).get(VitalViewModel.class);
+
+//            TODO check if insert works fine!
+            vitalViewModel.insert(vital);
 
             vitalViewModel.getAllVitals().observe(ScanQrActivity.this, vitals -> {
                 Toast.makeText(this, "onChanged", Toast.LENGTH_SHORT).show();
@@ -188,8 +190,6 @@ public class ScanQrActivity extends AppCompatActivity {
             });
 
 
-//            TODO store locally sqlite
-            Log.d(TAG, "parseData: vital : " + vital);
 
 
             Intent intent = new Intent(ScanQrActivity.this, VitalsActivity.class);

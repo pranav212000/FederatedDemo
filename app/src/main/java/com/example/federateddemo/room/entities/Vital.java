@@ -33,7 +33,7 @@ public class Vital {
     @ColumnInfo(name = "cough")
     private Boolean cough;
 
-    public Vital(String userId, Double temperature, Double spo2, Double pulse, Date date, Boolean cough) {
+    public Vital(@NonNull String userId, Double temperature, Double spo2, Double pulse, @NonNull Date date, Boolean cough) {
         this.userId = userId;
         this.temperature = temperature;
         this.spo2 = spo2;

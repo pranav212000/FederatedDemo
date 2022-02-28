@@ -10,13 +10,11 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.federateddemo.Constants;
 import com.example.federateddemo.fragments.VitalDisplayFragment;
-import com.example.federateddemo.models.ViewPagerItem;
-
-import java.util.ArrayList;
 
 public class ViewPagerFragmentAdapter extends FragmentStateAdapter {
 
-    private ArrayList<ViewPagerItem> viewPagerItemArrayList;
+    //    private ArrayList<ViewPagerItem> viewPagerItemArrayList;
+    private String userId;
 
 
     public ViewPagerFragmentAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
@@ -28,8 +26,8 @@ public class ViewPagerFragmentAdapter extends FragmentStateAdapter {
     }
 
 
-    public void setViewPagerItemArrayList(ArrayList<ViewPagerItem> viewPagerItemArrayList) {
-        this.viewPagerItemArrayList = viewPagerItemArrayList;
+    public void setViewPagerItemArrayList(String userId) {
+        this.userId = userId;
     }
 
     @NonNull
@@ -38,7 +36,21 @@ public class ViewPagerFragmentAdapter extends FragmentStateAdapter {
 
         Fragment fragment = new VitalDisplayFragment();
         Bundle args = new Bundle();
-        args.putSerializable(Constants.PAGER_ITEM, viewPagerItemArrayList.get(position));
+
+        switch (position) {
+            case 0:
+                args.putInt(Constants.PAGER_TYPE, Constants.WEEK);
+                break;
+            case 1:
+                args.putInt(Constants.PAGER_TYPE, Constants.MONTH);
+                break;
+            case 2:
+                args.putInt(Constants.PAGER_TYPE, Constants.YEAR);
+                break;
+        }
+
+
+        args.putString(Constants.USER_ID, userId);
         fragment.setArguments(args);
 
         return fragment;
@@ -46,6 +58,6 @@ public class ViewPagerFragmentAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return viewPagerItemArrayList.size();
+        return 3;
     }
 }
