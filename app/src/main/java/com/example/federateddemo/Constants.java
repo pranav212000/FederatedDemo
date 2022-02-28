@@ -11,6 +11,7 @@ public class Constants {
     public static final String DURATION = "duration";
     public static final String TIMESTAMP = "timestamp";
     public static final String PAGER_TYPE = "pager_type";
+    public static final String DEGREE_C = "\u2103";
 
 //    INTS
 
@@ -22,6 +23,9 @@ public class Constants {
     public static final int WEEK = 6;
     public static final int MONTH = 7;
     public static final int YEAR = 8;
+    public static final int TEMPERATURE_ID = 9;
+    public static final int PULSE_ID = 10;
+    public static final int SPO2_ID = 11;
 
 
 

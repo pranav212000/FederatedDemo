@@ -31,10 +31,6 @@ public class VitalsActivity extends AppCompatActivity {
         setContentView(mBinding.getRoot());
 
 
-//        viewPagerItemArrayList.add(new ViewPagerItem(1, null));
-//        viewPagerItemArrayList.add(new ViewPagerItem(2, null));
-//        viewPagerItemArrayList.add(new ViewPagerItem(3, null));
-
         SharedPreferences preferences = getApplication().getSharedPreferences(Constants.SHARED_PREFS, MODE_PRIVATE);
         String userId = preferences.getString(Constants.USER_ID, "abc");
 
