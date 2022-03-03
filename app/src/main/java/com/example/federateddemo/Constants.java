@@ -31,4 +31,6 @@ public class Constants {
 
     public static final String DATABASE_NAME = "CoviCare-Database";
     public static final String SHARED_PREFS = "shared_preferences";
+    public static final String IMAGE_URI = "image_uri";
+    public static final String FROM_ACTIVITY = "from_activity";
 }

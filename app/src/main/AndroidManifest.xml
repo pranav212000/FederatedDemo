@@ -23,7 +23,7 @@
             android:name=".ScanQrActivity"
             android:exported="false" />
         <activity
-            android:name=".models.DisplayImage"
+            android:name=".DisplayImageActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
@@ -68,5 +68,12 @@
         <activity android:name=".Signup_1" />
         <activity android:name=".VerifyEmail" />
     </application>
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.GET_CONTENT" />
+            <data android:mimeType="image/*"/>
+        </intent>
+    </queries>
 
 </manifest>

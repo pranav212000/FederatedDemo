@@ -27,7 +27,6 @@ import com.example.federateddemo.adapter.GridViewAdapter;
 import com.example.federateddemo.databinding.ActivityMainBinding;
 import com.example.federateddemo.interfaces.OnHomePageClickListener;
 import com.example.federateddemo.ml.ModelMobilenet20epoch;
-import com.example.federateddemo.models.DisplayImage;
 import com.example.federateddemo.models.HomePageButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -56,10 +55,10 @@ public class MainActivity extends AppCompatActivity implements OnHomePageClickLi
     private static final int PERMISSION_REQUEST_CODE = 102;
     private static final int SCAN_QR_CODE_REQUEST_CODE = 103;
     int preference = ScanConstants.OPEN_CAMERA;
-    private ActivityMainBinding mBinding;
     AlertDialog alertDialog;
     FirebaseAuth firebaseAuth;
     FirebaseUser user;
+    private ActivityMainBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,67 +155,6 @@ public class MainActivity extends AppCompatActivity implements OnHomePageClickLi
     }
 
 
-    private void infer(Bitmap bitmap) throws IOException {
-
-
-        Log.d(TAG, "infer: " + bitmap.getWidth() + " x " + bitmap.getHeight());
-//        ModelMobilenet95 model = ModelMobilenet95.newInstance(this);
-        ModelMobilenet20epoch modelMobilenet20epoch = ModelMobilenet20epoch.newInstance(this);
-
-        // Creates inputs for reference.
-        ImageProcessor imageProcessor =
-                new ImageProcessor.Builder()
-                        .add(new ResizeOp(224, 224, ResizeOp.ResizeMethod.BILINEAR))
-                        .build();
-
-        TensorImage tfImage = new TensorImage(DataType.FLOAT32);
-        tfImage.load(bitmap);
-        tfImage = imageProcessor.process(tfImage);
-
-        Log.d(TAG, "infer: remaining " + tfImage.getBuffer().remaining());
-
-
-//        TensorImage tfImage = TensorImage.fromBitmap(bitmap);
-
-
-        ByteBuffer byteBuffer = ByteBuffer.allocate(224 * 224 * 3);
-        byteBuffer.rewind();
-        byteBuffer = tfImage.getBuffer();
-        Log.d(TAG, "infer: " + tfImage.getBuffer().array().length);
-
-        TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 224, 224, 3}, DataType.FLOAT32);
-        inputFeature0.loadBuffer(byteBuffer);
-
-
-//        ModelMobilenet95.Outputs outputs = model.process(inputFeature0);
-        ModelMobilenet20epoch.Outputs outputs = modelMobilenet20epoch.process(inputFeature0);
-
-        TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
-
-        Log.d(TAG, "infer: " + outputFeature0.toString());
-
-        float[] data = outputFeature0.getFloatArray();
-
-        mBinding.pred.setText(String.valueOf(data[0]));
-        float pred = outputFeature0.getFloatArray()[0];
-
-        mBinding.predsLayout.setVisibility(View.VISIBLE);
-
-        if (pred > 1 - pred) {
-            mBinding.result.setText("POSITIVE");
-            mBinding.result.setTextColor(getResources().getColor(R.color.red));
-        } else {
-            mBinding.result.setText("NEGATIVE");
-            mBinding.result.setTextColor(getResources().getColor(R.color.green));
-        }
-
-        Log.d(TAG, "infer: outputdata " + Arrays.toString(data));
-
-
-        // Releases model resources if no longer used.
-//        model.close();
-        modelMobilenet20epoch.close();
-    }
 
 
     @Override
@@ -237,44 +175,40 @@ public class MainActivity extends AppCompatActivity implements OnHomePageClickLi
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
 
             Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-            cursor.moveToFirst();
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
-            Log.d(TAG, "onActivityResult: picturePath : " + picturePath);
 
-            startActivity(new Intent(MainActivity.this, DisplayImage.class));
-            mBinding.imageName.setText(Paths.get(picturePath).getFileName().toString());
-            ImageView imageView = findViewById(R.id.image);
-            Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
-            imageView.setImageBitmap(bitmap);
-
-            try {
-                infer(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-//            binding.image.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-
+            Intent intent = new Intent(getApplicationContext(), DisplayImageActivity.class);
+            intent.putExtra(Constants.FROM_ACTIVITY, Constants.PICK_IMAGE);
+            intent.putExtra(Constants.IMAGE_URI, selectedImage.toString());
+            startActivity(intent);
+//
+//            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+//            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+//            cursor.moveToFirst();
+//            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+//            String picturePath = cursor.getString(columnIndex);
+//            cursor.close();
+//            Log.d(TAG, "onActivityResult: picturePath : " + picturePath);
+//
+//
+//            mBinding.imageName.setText(Paths.get(picturePath).getFileName().toString());
+//            ImageView imageView = findViewById(R.id.image);
+//            Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
+//            imageView.setImageBitmap(bitmap);
+//
+//            try {
+//                infer(bitmap);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
         } else if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
 
-            Uri uri = data.getExtras().getParcelable(ScanConstants.SCANNED_RESULT);
-            Bitmap bitmap = null;
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                getContentResolver().delete(uri, null, null);
-                mBinding.image.setImageBitmap(bitmap);
-                try {
-                    infer(bitmap);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (data != null) {
+                Uri uri = data.getExtras().getParcelable(ScanConstants.SCANNED_RESULT);
+                Intent intent = new Intent(getApplicationContext(), DisplayImageActivity.class);
+                intent.putExtra(Constants.FROM_ACTIVITY, Constants.CAPTURE_IMAGE);
+                intent.putExtra(Constants.IMAGE_URI, uri.toString());
+                startActivity(intent);
             }
-        } else if (requestCode == SCAN_QR_CODE_REQUEST_CODE) {
         }
     }
 
@@ -352,8 +286,9 @@ public class MainActivity extends AppCompatActivity implements OnHomePageClickLi
                 break;
 
             case Constants.PICK_IMAGE:
-
-                startActivity(new Intent(MainActivity.this, DisplayImage.class));
+                Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                pickIntent.setType("image/*");
+                startActivityForResult(pickIntent, RESULT_LOAD_IMAGE);
                 break;
             case Constants.SCAN_QR:
 
