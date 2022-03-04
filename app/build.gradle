@@ -45,12 +45,19 @@ dependencies {
     implementation "androidx.biometric:biometric:1.1.0"
 
 //    tflite
+//    compileOnly 'org.tensorflow:tensorflow-lite:0.0.0-nightly-SNAPSHOT'
 
-    implementation 'org.tensorflow:tensorflow-lite-task-text:0.1.0'
-    implementation 'org.tensorflow:tensorflow-lite-support:0.1.0'
+//    KEEP THIS FOR RUN SIGNATURE
+//    DO NOT MESS WITH FOLLOWING DEPENDENCY
+    implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly-SNAPSHOT'
+    // This dependency adds the necessary TF op support.
+    implementation 'org.tensorflow:tensorflow-lite-select-tf-ops:0.0.0-nightly-SNAPSHOT'
+    implementation 'org.tensorflow:tensorflow-lite-support:0.0.0-nightly-SNAPSHOT'
 
-//    tensorflow for java
-    implementation 'org.tensorflow:tensorflow-android:1.13.1'
+//    KEEP THIS FOR IMAGE TENSORS AND PREPROCESSING
+//    DO NOT MESS WITH THESE 2 TENSORFLOW DEPENDENCIES
+//    implementation 'org.tensorflow:tensorflow-lite-task-text:0.3.0'
+//    implementation 'org.tensorflow:tensorflow-lite-support:0.1.0'
 
 
     implementation 'org.tensorflow:tensorflow-lite-metadata:0.1.0'

@@ -1,6 +1,7 @@
 package com.example.federateddemo;
 
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,15 +17,24 @@ import com.example.federateddemo.databinding.ActivityDisplayImageBinding;
 import com.example.federateddemo.ml.ModelMobilenet20epoch;
 
 import org.tensorflow.lite.DataType;
+import org.tensorflow.lite.Interpreter;
 import org.tensorflow.lite.support.image.ImageProcessor;
 import org.tensorflow.lite.support.image.TensorImage;
 import org.tensorflow.lite.support.image.ops.ResizeOp;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DisplayImageActivity extends AppCompatActivity {
 
@@ -42,6 +53,7 @@ public class DisplayImageActivity extends AppCompatActivity {
         Bitmap bitmap = null;
         if (fromActivity == Constants.CAPTURE_IMAGE) {
 
+            binding.imageName.setVisibility(View.GONE);
             Uri uri = Uri.parse(intent.getStringExtra(Constants.IMAGE_URI));
 
             try {
@@ -58,7 +70,7 @@ public class DisplayImageActivity extends AppCompatActivity {
 
             Uri selectedImage = Uri.parse(intent.getStringExtra(Constants.IMAGE_URI));
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
+            binding.imageName.setVisibility(View.VISIBLE);
 
             Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
             cursor.moveToFirst();
@@ -86,8 +98,8 @@ public class DisplayImageActivity extends AppCompatActivity {
 
 
         Log.d(TAG, "infer: " + bitmap.getWidth() + " x " + bitmap.getHeight());
-//        ModelMobilenet95 model = ModelMobilenet95.newInstance(this);
         ModelMobilenet20epoch modelMobilenet20epoch = ModelMobilenet20epoch.newInstance(this);
+//        Covid19DetectModel covid19DetectModel = Covid19DetectModel.newInstance(this);
 
         // Creates inputs for reference.
         ImageProcessor imageProcessor =
@@ -114,18 +126,53 @@ public class DisplayImageActivity extends AppCompatActivity {
         inputFeature0.loadBuffer(byteBuffer);
 
 
+        FloatBuffer outputBuffer = FloatBuffer.allocate(1);
+
 //        ModelMobilenet95.Outputs outputs = model.process(inputFeature0);
-        ModelMobilenet20epoch.Outputs outputs = modelMobilenet20epoch.process(inputFeature0);
+//        Covid19DetectModel.Outputs outputs = covid19DetectModel.process(inputFeature0);
 
-        TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
+        TensorBuffer probabilityBuffer =
+                TensorBuffer.createFixedSize(new int[]{1, 1}, DataType.FLOAT32);
 
-        Log.d(TAG, "infer: " + outputFeature0.toString());
+        try {
+            Interpreter interpreter = new Interpreter(loadModelFile());
+            interpreter.run(tfImage.getBuffer(), outputBuffer);
 
-        float[] data = outputFeature0.getFloatArray();
+            float[] output = outputBuffer.array();
+            Log.d(TAG, "infer: output buffer : " + output[0]);
 
-        binding.preds.setText(String.valueOf(data[0]));
-        float pred = outputFeature0.getFloatArray()[0];
+            updateUI(output[0]);
 
+            interpreter.close();
+        } catch (IOException e) {
+            Log.e(TAG, "train: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+
+//        TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
+
+//        Log.d(TAG, "infer: " + outputFeature0.toString());
+//
+//        float[] data = outputFeature0.getFloatArray();
+//         updateUI(data[0]);
+//
+
+
+        // Releases model resources if no longer used.
+//        model.close();
+        modelMobilenet20epoch.close();
+
+
+        binding.trainButton.setOnClickListener(view -> {
+            trainModel(bitmap);
+        });
+
+//        covid19DetectModel.close();
+    }
+
+    private void updateUI(float pred) {
+        binding.preds.setText(String.valueOf(pred));
 
         if (pred > 1 - pred) {
             binding.result.setText(R.string.positive);
@@ -135,12 +182,81 @@ public class DisplayImageActivity extends AppCompatActivity {
             binding.result.setTextColor(getResources().getColor(R.color.green));
         }
 
-        Log.d(TAG, "infer: outputdata " + Arrays.toString(data));
+    }
 
 
-        // Releases model resources if no longer used.
-//        model.close();
-        modelMobilenet20epoch.close();
+    private void trainModel(Bitmap bitmap) {
+        assert bitmap != null;
+
+        try (Interpreter interpreter = new Interpreter(loadModelFile())) {
+            int NUM_EPOCHS = 100;
+            int BATCH_SIZE = 100;
+            int IMG_HEIGHT = 28;
+            int IMG_WIDTH = 28;
+            int NUM_TRAININGS = 60000;
+            int NUM_BATCHES = NUM_TRAININGS / BATCH_SIZE;
+
+
+            List<FloatBuffer> trainImageBatches = new ArrayList<>(NUM_BATCHES);
+            List<FloatBuffer> trainLabelBatches = new ArrayList<>(NUM_BATCHES);
+
+            // Prepare training batches.
+
+
+            // Run training for a few steps.
+            float[] losses = new float[NUM_EPOCHS];
+
+            for (int epoch = 0; epoch < 10; ++epoch) {
+
+                FloatBuffer trainImage = FloatBuffer.allocate(224 * 224 * 3);
+
+                ImageProcessor imageProcessor =
+                        new ImageProcessor.Builder()
+                                .add(new ResizeOp(224, 224, ResizeOp.ResizeMethod.BILINEAR))
+                                .build();
+
+                TensorImage tfImage = new TensorImage(DataType.FLOAT32);
+                tfImage.load(bitmap);
+                tfImage = imageProcessor.process(tfImage);
+
+                Map<String, Object> inputs = new HashMap<>();
+                inputs.put("x", tfImage.getBuffer().rewind());
+                FloatBuffer label = FloatBuffer.allocate(1);
+
+//                label.put(1.0F);
+                inputs.put("y", label.rewind());
+
+                FloatBuffer loss = FloatBuffer.allocate(1);
+                Map<String, Object> outputs = new HashMap<>();
+                outputs.put("loss", loss);
+
+                interpreter.runSignature(inputs, outputs, "train");
+
+                losses[epoch] = loss.get(0);
+
+                Log.d(TAG, "trainModel: loss : " + loss.get(0));
+            }
+
+            Log.d(TAG, "trainModel: losses : " + Arrays.toString(losses));
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+    private MappedByteBuffer loadModelFile() throws IOException {
+        String MODEL_ASSETS_PATH = "model_mobilenet_20epoch.tflite";
+//        String MODEL_ASSETS_PATH = "covid_19_detect_model_1.tflite";
+
+        AssetFileDescriptor assetFileDescriptor = getApplicationContext().getAssets().openFd(MODEL_ASSETS_PATH);
+        FileInputStream fileInputStream = new FileInputStream(assetFileDescriptor.getFileDescriptor());
+        FileChannel fileChannel = fileInputStream.getChannel();
+        long startoffset = assetFileDescriptor.getStartOffset();
+        long declaredLength = assetFileDescriptor.getDeclaredLength();
+        return fileChannel.map(FileChannel.MapMode.READ_ONLY, startoffset, declaredLength);
     }
 
 }
